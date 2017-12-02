@@ -1,60 +1,75 @@
 #include <stdio.h>
+#define SIZE 20
+#define N 4
 
 int main()
 {
-	int a[20][20];
+	int a[SIZE][SIZE];
 	FILE* f = fopen("input.txt","r");
-	int max = 0,p;
-	int t;
-	for (int i = 0; i < 20; i++)
+	int max = 0, t = 1;
+	int i,j;
+	for (i = 0; i < SIZE; i++)
 	{
-		for (int j = 0; j < 20; j++)
+		for (j = 0; j < SIZE; j++)
 		{
 			// Read
-			t = fgetc(f) - '0';
-			t = t * 10 + fgetc(f) - '0';
-			a[i][j] = t;
-			printf("%02d ",a[i][j]);
-			// Next
-			fgetc(f);
+			fscanf(f,"%02d",&a[i][j]);	
 		}
-		// That was not a space
-		ungetc('\n',f);
 		// Line Over, Next line
-		t = fgetc(f);
-		printf("\n");
 	}
 	fclose(f);
-	
-	for (int i = 0; i < 17; i++)
+	// Sweep Main Region
+	for (i = 0; i < SIZE - N + 1; i++)
 	{
-		for(int j = 0; j < 17; j++)
+		for (j = 0; j < SIZE - N + 1; j++)
 		{
-			// Right
-			p = a[i][j] * a[i + 1][j] * a[i + 2][j] * a[i + 3][j];
-			if (p > max)
-			{
-				max = p;
-			}
-			// Down
-			p = a[i][j] * a[i][j + 1] * a[i][j + 2] * a[i][j + 3];
-			if (p > max)
-			{
-				max = p;
-			}
-			// Right - Down
-			p = a[i][j] * a[i + 1][j + 1] * a[i + 2][j + 2] * a[i + 3][j + 3];
-			if (p > max)
-			{
-				max = p;
-			}
+			// Diagonaly
+			t = a[i][j] * a[i + 1][j + 1] * a[i + 2][j + 2] * a[i + 3][j + 3];
+			if (t > max)
+				max = t;
 		}
 	}
-	printf("\n%d\n",max);
+	// Sweep Down
+	for (i = 0; i < SIZE - N + 1; i++)
+	{
+		for(j = 0; j < SIZE; j++)
+		{
+			// Down Only
+			t = a[i][j] * a[i + 1][j] * a[i + 2][j] * a[i + 3][j];
+			if (t > max)
+				max = t;
+		}
+	}
+	
+	// Sweep Right
+	for (j  = 0; j < SIZE - N + 1; j++)
+	{
+		
+		for (i = 0; i < SIZE; i++)
+		{
+			// Right Only
+			t = a[i][j] * a[i][j + 1] * a[i][j + 2] * a[i][j + 3];
+			if (t > max)
+				max = t;			
+		}
+	}
+	
+	//Blitzkreig
+	for (i = SIZE - 1; i > 1 + N - 1; i--)
+	{
+		for (j = 0; j < SIZE - N + 1; j++)
+		{
+			t = a[i][j] * a[i - 1][j + 1] * a[i - 2][j + 2] * a[i - 3][j + 3];
+			if (t > max)
+				max = t;
+		}
+	}
+	printf("%d",max);
 	return 0;
 }
-	 
-			 
+			
+
+	
 				
 			
 			
