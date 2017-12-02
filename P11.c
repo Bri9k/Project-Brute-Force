@@ -2,6 +2,7 @@
 #define SIZE 20
 #define N 4
 
+
 int main()
 {
 	int a[SIZE][SIZE];
