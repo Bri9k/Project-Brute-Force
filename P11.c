@@ -15,7 +15,6 @@ int main()
 			// Read
 			fscanf(f,"%02d",&a[i][j]);	
 		}
-		// Line Over, Next line
 	}
 	fclose(f);
 	// Sweep Main Region
@@ -27,30 +26,11 @@ int main()
 			t = a[i][j] * a[i + 1][j + 1] * a[i + 2][j + 2] * a[i + 3][j + 3];
 			if (t > max)
 				max = t;
-		}
-	}
-	// Sweep Down
-	for (i = 0; i < SIZE - N + 1; i++)
-	{
-		for(j = 0; j < SIZE; j++)
-		{
-			// Down Only
-			t = a[i][j] * a[i + 1][j] * a[i + 2][j] * a[i + 3][j];
-			if (t > max)
-				max = t;
-		}
-	}
-	
-	// Sweep Right
-	for (j  = 0; j < SIZE - N + 1; j++)
-	{
-		
-		for (i = 0; i < SIZE; i++)
-		{
-			// Right Only
+			// And Right
 			t = a[i][j] * a[i][j + 1] * a[i][j + 2] * a[i][j + 3];
 			if (t > max)
 				max = t;			
+
 		}
 	}
 	
@@ -59,9 +39,15 @@ int main()
 	{
 		for (j = 0; j < SIZE - N + 1; j++)
 		{
+			// Diagonal
 			t = a[i][j] * a[i - 1][j + 1] * a[i - 2][j + 2] * a[i - 3][j + 3];
 			if (t > max)
 				max = t;
+			// And Up
+			t = a[i][j] * a[i - 1][j] * a[i - 2][j] * a[i - 3][j];
+			if (t > max)
+				max = t;
+		
 		}
 	}
 	printf("%d",max);
